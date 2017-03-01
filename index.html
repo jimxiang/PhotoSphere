@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>photo sphere</title>
+<style>
+    body {
+        margin: 0;
+    }
+    canvas {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+</head>
+<body>
+
+<script src="./src/js/three.min.js"></script>
+<script src="./src/js/CSS3DRenderer.js"></script>
+<script>
+    var scene,
+        renderer,
+        camera;
+
+    var target = new THREE.Vector3();
+
+    var lon = 90, lat = 0;
+    var phi = 0, theta = 0;
+    var touchX, touchY;
+
+    function init() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(
+            90,
+            window.innerWidth,
+            window.innerHeight,
+            0.1,
+            1000
+        );
+        renderer = new THREE.CSS3DRenderer();
+        renderer.setClearColor(0x000000, 1.0);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        addSides(generateCubeMap());
+        document.body.appendChild(renderer.domElement);
+        document.addEventListener('mousedown', onDocumentMouseDown, false);
+        document.addEventListener('mousewheel', onDocumentMouseWheel, false);
+        document.addEventListener('touchstart', onDocumentTouchStart, false);
+        document.addEventListener('touchmove', onDocumentTouchMove, false);
+        window.addEventListener('resize', onWindowResize, false);
+        render();
+    }
+
+    function generateCubeMap(tileWidth) {
+        var flipAngle = Math.PI,
+            rightAngle = flipAngle / 2,
+            tileWidth = tileWidth || 512,
+            folderName = './images/';
+
+        // 方向：右, x, x, x, 前, 后
+        var sides = [{
+            url: folderName + 'sphere2.jpg',
+            position: [-tileWidth, 0, 0],
+            rotation: [0, rightAngle, 0]
+        }, {
+            url: folderName + 'sphere3.jpg',
+            position: [tileWidth, 0, 0],
+            rotation: [0, -rightAngle, 0]
+        }, {
+            url: folderName + 'sphere3.jpg',
+            position: [0, tileWidth, 0],
+            rotation: [rightAngle, 0, flipAngle]
+        }, {
+            url: folderName + 'sphere1.jpg',
+            position: [0, -tileWidth, 0],
+            rotation: [-rightAngle, 0, flipAngle]
+        }, {
+            url: folderName + 'sphere1.jpg',
+            position: [0, 0, tileWidth],
+            rotation: [0, flipAngle, 0]
+        }, {
+            url: folderName + 'sphere4.jpg',
+            position: [0, 0, -tileWidth],
+            rotation: [0, 0, 0]
+        }];
+        return sides;
+    }
+
+    function addSides(sides) {
+        if('object' === typeof sides && sides.length) {
+            var length = sides.length;
+            for(var i = 0; i < length; i++) {
+                var side = sides[i];
+                var element = document.createElement('section');
+                element.id = 'section_' + i;
+                var imgElement = document.createElement('img');
+                imgElement.width = 1028;
+                imgElement.height = 1028;
+                imgElement.src = side.url;
+                element.appendChild(imgElement);
+                var object = new THREE.CSS3DObject(element);
+                object.position.fromArray(side.position);
+                object.rotation.fromArray(side.rotation);
+                scene.add(object);
+            }
+        }
+    }
+
+    function render() {
+        requestAnimationFrame(render);
+        lon = Math.max(-180, Math.min(180, lon));//限制固定角度内旋转
+        // lon += 0.1;//自动旋转
+        // lon += 0;
+        lat = Math.max(-85, Math.min(85, lat));
+        phi = THREE.Math.degToRad(90 - lat);
+        theta = THREE.Math.degToRad(lon);
+        target.x = Math.sin(phi) * Math.cos(theta);
+        target.y = Math.cos(phi);
+        target.z = Math.sin(phi) * Math.sin(theta);
+        camera.lookAt(target);
+        renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function onDocumentMouseDown(event) {
+        event.preventDefault();
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
+        document.addEventListener('mouseup', onDocumentMouseUp, false);
+    }
+
+    function onDocumentMouseMove(event) {
+        var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+        var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+        lon -= movementX * 0.1;
+        lat += movementX * 0.1;
+    }
+
+    function onDocumentMouseUp(event) {
+        document.removeEventListener('mousemove', onDocumentMouseMove);
+        document.removeEventListener('mouseup', onDocumentMouseUp);
+    }
+
+    function onDocumentMouseWheel(event) {
+        camera.fov -= event.wheelDeltaY * 0.05;
+        camera.updateProjectionMatrix();
+    }
+
+    function onDocumentTouchStart(event) {
+        event.preventDefault();
+        var touch = event.touches[0];
+        touchX = touch.screenX;
+        touchY = touch.screenY;
+    }
+
+    function onDocumentTouchMove(event) {
+        event.preventDefault();
+        var touch = event.touches[0];
+        lon -= (touch.screenX - touchX) * 0.1;
+        lat += (touch.screenY - touchY) * 0.1;
+        touchX = touch.screenX;
+        touchY = touch.screenY;
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
