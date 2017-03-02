@@ -14,5 +14,8 @@
     "photosphere"
   ],
   "author": "xiang_ji",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^0.9.0"
+  }
 }

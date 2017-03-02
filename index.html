@@ -26,7 +26,8 @@
 
     var lon = 90, lat = 0;
     var phi = 0, theta = 0;
-    var touchX, touchY;
+    var current_cube = 0;
+    var touchX, touchY, touchStartX, touchStartY;
 
     function init() {
         scene = new THREE.Scene();
@@ -46,43 +47,89 @@
         document.addEventListener('mousewheel', onDocumentMouseWheel, false);
         document.addEventListener('touchstart', onDocumentTouchStart, false);
         document.addEventListener('touchmove', onDocumentTouchMove, false);
+        document.addEventListener('touchend', onDocumentTouchEnd, false);
         window.addEventListener('resize', onWindowResize, false);
         render();
     }
 
-    function generateCubeMap(tileWidth) {
+    function generateCubeMap(tileWidth, current_cube) {
         var flipAngle = Math.PI,
             rightAngle = flipAngle / 2,
-            tileWidth = tileWidth || 512,
-            folderName = './images/';
+            tileWidth = tileWidth || 1024,
+            folderName = './img/',
+            cube_arr = ['first', 'second', 'third'],
+            sides = [];
 
-        // 方向：右, x, x, x, 前, 后
-        var sides = [{
-            url: folderName + 'sphere2.jpg',
-            position: [-tileWidth, 0, 0],
-            rotation: [0, rightAngle, 0]
-        }, {
-            url: folderName + 'sphere3.jpg',
-            position: [tileWidth, 0, 0],
-            rotation: [0, -rightAngle, 0]
-        }, {
-            url: folderName + 'sphere3.jpg',
-            position: [0, tileWidth, 0],
-            rotation: [rightAngle, 0, flipAngle]
-        }, {
-            url: folderName + 'sphere1.jpg',
-            position: [0, -tileWidth, 0],
-            rotation: [-rightAngle, 0, flipAngle]
-        }, {
-            url: folderName + 'sphere1.jpg',
-            position: [0, 0, tileWidth],
-            rotation: [0, flipAngle, 0]
-        }, {
-            url: folderName + 'sphere4.jpg',
-            position: [0, 0, -tileWidth],
-            rotation: [0, 0, 0]
-        }];
-        return sides;
+        // 方向：右, 左, x, x, 前, 后
+        if(current_cube && cube_arr[current_cube]) {
+            sides = [
+            {
+                url: folderName + cube_arr[current_cube] + '_01.png',
+                position: [-tileWidth, 0, 0],
+                rotation: [0, rightAngle, 0]
+            },
+            {
+                url: folderName + cube_arr[current_cube] + '_03.png',
+                position: [tileWidth, 0, 0],
+                rotation: [0, -rightAngle, 0]
+            },
+            // {
+            //     url: folderName + 'sphere3.png',
+            //     position: [0, tileWidth, 0],
+            //     rotation: [rightAngle, 0, flipAngle]
+            // },
+            // {
+            //     url: folderName + 'sphere1.png',
+            //     position: [0, -tileWidth, 0],
+            //     rotation: [-rightAngle, 0, flipAngle]
+            // },
+            {
+                url: folderName + cube_arr[current_cube] + '_04.png',
+                position: [0, 0, tileWidth],
+                rotation: [0, flipAngle, 0]
+            },
+            {
+                url: folderName + cube_arr[current_cube] + '_02.png',
+                position: [0, 0, -tileWidth],
+                rotation: [0, 0, 0]
+            }];
+            return sides;
+        } else {
+            if(current_cube == undefined || current_cube == 0) {
+            sides = [
+            {
+                url: folderName + cube_arr[0] + '_01.png',
+                position: [-tileWidth, 0, 0],
+                rotation: [0, rightAngle, 0]
+            },
+            {
+                url: folderName + cube_arr[0] + '_03.png',
+                position: [tileWidth, 0, 0],
+                rotation: [0, -rightAngle, 0]
+            },
+            {
+                url: folderName + cube_arr[2] + '_03.png',
+                position: [0, tileWidth, 0],
+                rotation: [rightAngle, 0, flipAngle]
+            },
+            {
+                url: folderName + cube_arr[1] + '_03.png',
+                position: [0, -tileWidth, 0],
+                rotation: [-rightAngle, 0, flipAngle]
+            },
+            {
+                url: folderName + cube_arr[0] + '_04.png',
+                position: [0, 0, tileWidth],
+                rotation: [0, flipAngle, 0]
+            },
+            {
+                url: folderName + cube_arr[0] + '_02.png',
+                position: [0, 0, -tileWidth],
+                rotation: [0, 0, 0]
+            }];
+            return sides;
+        }
+        }
     }
 
     function addSides(sides) {
@@ -93,8 +140,8 @@
                 var element = document.createElement('section');
                 element.id = 'section_' + i;
                 var imgElement = document.createElement('img');
-                imgElement.width = 1028;
-                imgElement.height = 1028;
+                imgElement.width = 2050;
+                imgElement.height = 2050;
                 imgElement.src = side.url;
                 element.appendChild(imgElement);
                 var object = new THREE.CSS3DObject(element);
@@ -107,14 +154,13 @@
 
     function render() {
         requestAnimationFrame(render);
-        lon = Math.max(-180, Math.min(180, lon));//限制固定角度内旋转
-        // lon += 0.1;//自动旋转
-        // lon += 0;
+        lon = Math.max(-360, Math.min(360, lon)); // 全角度旋转
         lat = Math.max(-85, Math.min(85, lat));
         phi = THREE.Math.degToRad(90 - lat);
         theta = THREE.Math.degToRad(lon);
         target.x = Math.sin(phi) * Math.cos(theta);
-        target.y = Math.cos(phi);
+        // target.y = Math.cos(phi);
+        target.y = 0; // 没有上面和下面的图，camera上下不移动
         target.z = Math.sin(phi) * Math.sin(theta);
         camera.lookAt(target);
         renderer.render(scene, camera);
@@ -152,8 +198,8 @@
     function onDocumentTouchStart(event) {
         event.preventDefault();
         var touch = event.touches[0];
-        touchX = touch.screenX;
-        touchY = touch.screenY;
+        touchStartX = touchX = touch.screenX;
+        touchStartY = touchY = touch.screenY;
     }
 
     function onDocumentTouchMove(event) {
@@ -163,6 +209,35 @@
         lat += (touch.screenY - touchY) * 0.1;
         touchX = touch.screenX;
         touchY = touch.screenY;
+        // console.log(touchX, touchY);
+    }
+
+    function onDocumentTouchEnd() {
+        // 判断前进后退
+        if(lon <= 85 && lon >= 70 && Math.abs(touchStartX - touchX) < 10) {
+            if((touchStartY - touchY) > 10) {
+                // 前进
+                camera.fov -= 120 * 0.05;
+                camera.updateProjectionMatrix();
+            }
+            if((touchStartY - touchY) < -10) {
+                // 后退
+                camera.fov += 120 * 0.05;
+                camera.updateProjectionMatrix();
+            }
+        }
+        if(lon <= 270 && lon >= 255 && Math.abs(touchStartX - touchX) < 10) {
+            if((touchStartY - touchY) > 10) {
+                // 前进
+                camera.fov -= 120 * 0.05;
+                camera.updateProjectionMatrix();
+            }
+            if((touchStartY - touchY) < -10) {
+                // 后退
+                camera.fov += 120 * 0.05;
+                camera.updateProjectionMatrix();
+            }
+        }
     }
     window.onload = init;
 </script>
