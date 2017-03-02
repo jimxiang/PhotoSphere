@@ -220,12 +220,10 @@
         lat += (touch.screenY - touchY) * 0.1;
         touchX = touch.screenX;
         touchY = touch.screenY;
-        // console.log(touchX, touchY);
     }
 
     function onDocumentTouchEnd() {
         // 判断前进后退
-        console.log(lon);
         if(lon <= 85 && lon >= 70 && Math.abs(touchStartX - touchX) < 10) {
             if((touchStartY - touchY) > 10) {
                 // 前进
@@ -246,7 +244,6 @@
             }
             if((touchStartY - touchY) < -10) {
                 // 后退
-                console.log(camera.fov);
                 camera.fov += 120 * 0.05;
                 camera.updateProjectionMatrix();
                 if(camera.fov >= 80) {
@@ -264,7 +261,6 @@
             }
         }
         if(((lon <= -103 && lon >= -110) || (lon <= 270 && lon >= 255)) && Math.abs(touchStartX - touchX) < 10) {
-            console.log(camera.fov);
             if((touchStartY - touchY) > 10) {
                 // 前进
                 camera.fov -= 120 * 0.05;
