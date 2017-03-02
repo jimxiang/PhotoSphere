@@ -58,39 +58,52 @@
         var flipAngle = Math.PI,
             rightAngle = flipAngle / 2,
             tileWidth = 780,
+            tileHeight = 512,
             folderName = './img/',
             cube_arr = ['first', 'second', 'third'];
-        // 方向：右, 左, x, x, 前, 后
+        // 方向：右, 左, 上, 下, 前, 后
         var sides_1 = [
             {
                 url: folderName + cube_arr[0] + '_01.png',
                 position: [-tileWidth, 0, 0],
-                rotation: [0, rightAngle, 0]
+                rotation: [0, rightAngle, 0],
+                width: 1562,
+                height: 1026
             },
             {
                 url: folderName + cube_arr[0] + '_03.png',
                 position: [tileWidth, 0, 0],
-                rotation: [0, -rightAngle, 0]
+                rotation: [0, -rightAngle, 0],
+                width: 1562,
+                height: 1026
             },
-            // {
-            //     url: folderName + 'sphere3.png',
-            //     position: [0, tileWidth, 0],
-            //     rotation: [rightAngle, 0, flipAngle]
-            // },
-            // {
-            //     url: folderName + 'sphere1.png',
-            //     position: [0, -tileWidth, 0],
-            //     rotation: [-rightAngle, 0, flipAngle]
-            // },
+            {
+                url: folderName + 'sky.png',
+                position: [0, tileHeight, 0],
+                rotation: [rightAngle, 0, flipAngle],
+                width: 1562,
+                height: 1562
+            },
+            {
+                url: folderName + 'floor.png',
+                position: [0, -tileHeight, 0],
+                rotation: [-rightAngle, 0, flipAngle],
+                width: 1562,
+                height: 1562
+            },
             {
                 url: folderName + cube_arr[0] + '_04.png',
                 position: [0, 0, tileWidth],
-                rotation: [0, flipAngle, 0]
+                rotation: [0, flipAngle, 0],
+                width: 1562,
+                height: 1026
             },
             {
                 url: folderName + cube_arr[0] + '_02.png',
                 position: [0, 0, -tileWidth],
-                rotation: [0, 0, 0]
+                rotation: [0, 0, 0],
+                width: 1562,
+                height: 1026
             }
         ];
         sides.push(sides_1);
@@ -98,22 +111,30 @@
             {
                 url: folderName + cube_arr[1] + '_02.png',
                 position: [-tileWidth, 0, 0],
-                rotation: [0, rightAngle, 0]
+                rotation: [0, rightAngle, 0],
+                width: 1562,
+                height: 1026
             },
             {
                 url: folderName + cube_arr[1] + '_04.png',
                 position: [tileWidth, 0, 0],
-                rotation: [0, -rightAngle, 0]
+                rotation: [0, -rightAngle, 0],
+                width: 1562,
+                height: 1026
             },
             {
                 url: folderName + cube_arr[1] + '_01.png',
                 position: [0, 0, tileWidth],
-                rotation: [0, flipAngle, 0]
+                rotation: [0, flipAngle, 0],
+                width: 1562,
+                height: 1026
             },
             {
                 url: folderName + cube_arr[1] + '_03.png',
                 position: [0, 0, -tileWidth],
-                rotation: [0, 0, 0]
+                rotation: [0, 0, 0],
+                width: 1562,
+                height: 1026
             }
         ];
         sides.push(sides_2);
@@ -121,22 +142,30 @@
             {
                 url: folderName + cube_arr[2] + '_02.png',
                 position: [-tileWidth, 0, 0],
-                rotation: [0, rightAngle, 0]
+                rotation: [0, rightAngle, 0],
+                width: 1562,
+                height: 1026
             },
             {
                 url: folderName + cube_arr[2] + '_04.png',
                 position: [tileWidth, 0, 0],
-                rotation: [0, -rightAngle, 0]
+                rotation: [0, -rightAngle, 0],
+                width: 1562,
+                height: 1026
             },
             {
                 url: folderName + cube_arr[2] + '_01.png',
                 position: [0, 0, tileWidth],
-                rotation: [0, flipAngle, 0]
+                rotation: [0, flipAngle, 0],
+                width: 1562,
+                height: 1026
             },
             {
                 url: folderName + cube_arr[2] + '_03.png',
                 position: [0, 0, -tileWidth],
-                rotation: [0, 0, 0]
+                rotation: [0, 0, 0],
+                width: 1562,
+                height: 1026
             }
         ];
         sides.push(sides_3);
@@ -151,8 +180,8 @@
                 var element = document.createElement('section');
                 element.id = 'section_' + i;
                 var imgElement = document.createElement('img');
-                imgElement.width = 1562;
-                imgElement.height = 1026;
+                imgElement.width = side.width;
+                imgElement.height = side.height;
                 imgElement.src = side.url;
                 element.appendChild(imgElement);
                 var object = new THREE.CSS3DObject(element);
