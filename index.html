@@ -61,114 +61,161 @@
             tileHeight = 512,
             folderName = './img/',
             cube_arr = ['first', 'second', 'third'];
+        // 公司demo
+            var sides_0 = [
+                {
+                    url: folderName + 'photo_03.png',
+                    position: [-tileWidth, 0, 0],
+                    rotation: [0, rightAngle, 0],
+                    width: 1562,
+                    height: 1026
+                },
+                {
+                    url: folderName + 'photo_01.png',
+                    position: [tileWidth, 0, 0],
+                    rotation: [0, -rightAngle, 0],
+                    width: 1562,
+                    height: 1026
+                },
+                {
+                    url: folderName + 'three.png',
+                    position: [0, tileHeight, 0],
+                    rotation: [rightAngle, 0, flipAngle],
+                    width: 1562,
+                    height: 1562
+                },
+                {
+                    url: folderName + 'floor.png',
+                    position: [0, -tileHeight, 0],
+                    rotation: [-rightAngle, 0, flipAngle],
+                    width: 1562,
+                    height: 1562
+                },
+                {
+                    url: folderName + 'photo_02.png',
+                    position: [0, 0, tileWidth],
+                    rotation: [0, flipAngle, 0],
+                    width: 1562,
+                    height: 1026
+                },
+                {
+                    url: folderName + 'photo_04.png',
+                    position: [0, 0, -tileWidth],
+                    rotation: [0, 0, 0],
+                    width: 1562,
+                    height: 1026
+                }
+            ];
+        sides.push(sides_0);
+        // 学校demo
         // 方向：右, 左, 上, 下, 前, 后
-        var sides_1 = [
-            {
-                url: folderName + cube_arr[0] + '_01.png',
-                position: [-tileWidth, 0, 0],
-                rotation: [0, rightAngle, 0],
-                width: 1562,
-                height: 1026
-            },
-            {
-                url: folderName + cube_arr[0] + '_03.png',
-                position: [tileWidth, 0, 0],
-                rotation: [0, -rightAngle, 0],
-                width: 1562,
-                height: 1026
-            },
-            {
-                url: folderName + 'sky.png',
-                position: [0, tileHeight, 0],
-                rotation: [rightAngle, 0, flipAngle],
-                width: 1562,
-                height: 1562
-            },
-            {
-                url: folderName + 'floor.png',
-                position: [0, -tileHeight, 0],
-                rotation: [-rightAngle, 0, flipAngle],
-                width: 1562,
-                height: 1562
-            },
-            {
-                url: folderName + cube_arr[0] + '_04.png',
-                position: [0, 0, tileWidth],
-                rotation: [0, flipAngle, 0],
-                width: 1562,
-                height: 1026
-            },
-            {
-                url: folderName + cube_arr[0] + '_02.png',
-                position: [0, 0, -tileWidth],
-                rotation: [0, 0, 0],
-                width: 1562,
-                height: 1026
-            }
-        ];
-        sides.push(sides_1);
-        var sides_2 = [
-            {
-                url: folderName + cube_arr[1] + '_02.png',
-                position: [-tileWidth, 0, 0],
-                rotation: [0, rightAngle, 0],
-                width: 1562,
-                height: 1026
-            },
-            {
-                url: folderName + cube_arr[1] + '_04.png',
-                position: [tileWidth, 0, 0],
-                rotation: [0, -rightAngle, 0],
-                width: 1562,
-                height: 1026
-            },
-            {
-                url: folderName + cube_arr[1] + '_01.png',
-                position: [0, 0, tileWidth],
-                rotation: [0, flipAngle, 0],
-                width: 1562,
-                height: 1026
-            },
-            {
-                url: folderName + cube_arr[1] + '_03.png',
-                position: [0, 0, -tileWidth],
-                rotation: [0, 0, 0],
-                width: 1562,
-                height: 1026
-            }
-        ];
-        sides.push(sides_2);
-        var sides_3 = [
-            {
-                url: folderName + cube_arr[2] + '_02.png',
-                position: [-tileWidth, 0, 0],
-                rotation: [0, rightAngle, 0],
-                width: 1562,
-                height: 1026
-            },
-            {
-                url: folderName + cube_arr[2] + '_04.png',
-                position: [tileWidth, 0, 0],
-                rotation: [0, -rightAngle, 0],
-                width: 1562,
-                height: 1026
-            },
-            {
-                url: folderName + cube_arr[2] + '_01.png',
-                position: [0, 0, tileWidth],
-                rotation: [0, flipAngle, 0],
-                width: 1562,
-                height: 1026
-            },
-            {
-                url: folderName + cube_arr[2] + '_03.png',
-                position: [0, 0, -tileWidth],
-                rotation: [0, 0, 0],
-                width: 1562,
-                height: 1026
-            }
-        ];
-        sides.push(sides_3);
+        // var sides_1 = [
+        //     {
+        //         url: folderName + cube_arr[0] + '_01.png',
+        //         position: [-tileWidth, 0, 0],
+        //         rotation: [0, rightAngle, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     },
+        //     {
+        //         url: folderName + cube_arr[0] + '_03.png',
+        //         position: [tileWidth, 0, 0],
+        //         rotation: [0, -rightAngle, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     },
+        //     {
+        //         url: folderName + 'sky.png',
+        //         position: [0, tileHeight, 0],
+        //         rotation: [rightAngle, 0, flipAngle],
+        //         width: 1562,
+        //         height: 1562
+        //     },
+        //     {
+        //         url: folderName + 'floor.png',
+        //         position: [0, -tileHeight, 0],
+        //         rotation: [-rightAngle, 0, flipAngle],
+        //         width: 1562,
+        //         height: 1562
+        //     },
+        //     {
+        //         url: folderName + cube_arr[0] + '_04.png',
+        //         position: [0, 0, tileWidth],
+        //         rotation: [0, flipAngle, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     },
+        //     {
+        //         url: folderName + cube_arr[0] + '_02.png',
+        //         position: [0, 0, -tileWidth],
+        //         rotation: [0, 0, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     }
+        // ];
+        // sides.push(sides_1);
+        // var sides_2 = [
+        //     {
+        //         url: folderName + cube_arr[1] + '_02.png',
+        //         position: [-tileWidth, 0, 0],
+        //         rotation: [0, rightAngle, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     },
+        //     {
+        //         url: folderName + cube_arr[1] + '_04.png',
+        //         position: [tileWidth, 0, 0],
+        //         rotation: [0, -rightAngle, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     },
+        //     {
+        //         url: folderName + cube_arr[1] + '_01.png',
+        //         position: [0, 0, tileWidth],
+        //         rotation: [0, flipAngle, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     },
+        //     {
+        //         url: folderName + cube_arr[1] + '_03.png',
+        //         position: [0, 0, -tileWidth],
+        //         rotation: [0, 0, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     }
+        // ];
+        // sides.push(sides_2);
+        // var sides_3 = [
+        //     {
+        //         url: folderName + cube_arr[2] + '_02.png',
+        //         position: [-tileWidth, 0, 0],
+        //         rotation: [0, rightAngle, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     },
+        //     {
+        //         url: folderName + cube_arr[2] + '_04.png',
+        //         position: [tileWidth, 0, 0],
+        //         rotation: [0, -rightAngle, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     },
+        //     {
+        //         url: folderName + cube_arr[2] + '_01.png',
+        //         position: [0, 0, tileWidth],
+        //         rotation: [0, flipAngle, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     },
+        //     {
+        //         url: folderName + cube_arr[2] + '_03.png',
+        //         position: [0, 0, -tileWidth],
+        //         rotation: [0, 0, 0],
+        //         width: 1562,
+        //         height: 1026
+        //     }
+        // ];
+        // sides.push(sides_3);
     }
 
     function addSides(sides) {
